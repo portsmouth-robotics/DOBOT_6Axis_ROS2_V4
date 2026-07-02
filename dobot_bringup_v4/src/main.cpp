@@ -42,13 +42,20 @@ int main(int argc, char *argv[])
 
   rclcpp::Rate rate(rate_value);
   double position[6];
+  double last_valid_position[6] = {0};
+  bool has_valid_data = false;
   while (rclcpp::ok())
   {
     // 获取关节状态并发布消息
     if (robot->isConnected()) {
       robot->getJointState(position);
+      memcpy(last_valid_position, position, sizeof(position));
+      has_valid_data = true;
     } else {
-      memset(position, 0, sizeof(position));
+      if (has_valid_data)
+        memcpy(position, last_valid_position, sizeof(position));
+      else
+        memset(position, 0, sizeof(position));
     }
     joint_state_msg.header.stamp = robot->get_clock()->now();
     joint_state_msg.header.frame_id = "dummy_link";
