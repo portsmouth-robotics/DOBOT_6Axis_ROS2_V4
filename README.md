@@ -1,10 +1,10 @@
 <div align="center">
 
- <img src="image/dobot_moveit.jpg" alt="DOBOT 6Axis ROS2 V4" style="max-width: 600px; margin-bottom: 20px;" />
+<img src="image/dobot_moveit.jpg" alt="DOBOT 6Axis ROS2 V4" style="max-width: 600px; margin-bottom: 20px;" />
 
- <h1>DOBOT 6Axis ROS2 V4</h1>
+<h1>DOBOT 6Axis ROS2 V4</h1>
 
- **Dobot Robotics ROS2 Software Development Kit**  
+ **Dobot Robotics ROS2 Software Development Kit**
  High-performance robot control framework based on TCP/IP protocol
 
  [English](README.md) · [简体中文](README_ZH.md)
@@ -21,19 +21,19 @@
 
 ### System Requirements
 
-| Requirement | Version |
-|-------------|---------|
-| OS | Ubuntu 22.04 LTS |
-| ROS Version | ROS2 Humble |
-| Python | 3.8+ |
+| Requirement | Version          |
+| ----------- | ---------------- |
+| OS          | Ubuntu 22.04 LTS |
+| ROS Version | ROS2 Humble      |
+| Python      | 3.8+             |
 
 ### Network Configuration
 
-| Configuration | Description |
-|---------------|-------------|
-| Robot IP | 192.168.5.1 (must be in the same subnet) |
-| Control Port | 29999 |
-| Feedback Port | 30004 |
+| Configuration | Description                              |
+| ------------- | ---------------------------------------- |
+| Robot IP      | 192.168.5.1 (must be in the same subnet) |
+| Control Port  | 29999                                    |
+| Feedback Port | 30004                                    |
 
 ### Installation
 
@@ -108,25 +108,25 @@ DOBOT_6Axis_ROS2_V4/
 
 ## Supported Models
 
-| Series | Models |
-|--------|--------|
-| CR Series | CR3, CR5, CR7, CR10, CR12, CR16, CR20, CR30H |
-| CRAF Series | CR10AF |
-| E Series | E6 / ME6 |
-| Nova Series | Nova2, Nova5 |
+| Series      | Models                                       |
+| ----------- | -------------------------------------------- |
+| CR Series   | CR3, CR5, CR7, CR10, CR12, CR16, CR20, CR30H |
+| CRAF Series | CR3AF, CR5AF, CR10AF, CR20AF                 |
+| E Series    | E6 / ME6                                     |
+| Nova Series | Nova2, Nova5, Nova2s                         |
 
 ---
 
 ## Launch Files
 
-| Launch File | Description |
-|-------------|-------------|
-| `dobot_bringup_ros2.launch.py` | Launch robot driver |
-| `dobot_rviz.launch.py` | Launch RViz |
-| `moveit_demo.launch.py` | MoveIt virtual demo |
-| `dobot_moveit.launch.py` | MoveIt control interface |
-| `dobot_gazebo.launch.py` | Launch Gazebo |
-| `gazebo_moveit.launch.py` | Gazebo-MoveIt integration |
+| Launch File                      | Description               |
+| -------------------------------- | ------------------------- |
+| `dobot_bringup_ros2.launch.py` | Launch robot driver       |
+| `dobot_rviz.launch.py`         | Launch RViz               |
+| `moveit_demo.launch.py`        | MoveIt virtual demo       |
+| `dobot_moveit.launch.py`       | MoveIt control interface  |
+| `dobot_gazebo.launch.py`       | Launch Gazebo             |
+| `gazebo_moveit.launch.py`      | Gazebo-MoveIt integration |
 
 ---
 
@@ -142,10 +142,10 @@ DOBOT_6Axis_ROS2_V4/
 
 ## Version Information
 
-| Information | Content |
-|-------------|---------|
-| Current Version | V4.6.5 |
-| ROS Version | ROS2 Humble |
+| Information      | Content             |
+| ---------------- | ------------------- |
+| Current Version  | V4.6.5              |
+| ROS Version      | ROS2 Humble         |
 | Protocol Version | Dobot TCP/IP V4.6.5 |
 
 ---

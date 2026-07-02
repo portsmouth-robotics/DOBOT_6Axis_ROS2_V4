@@ -1,10 +1,10 @@
 <div align="center">
 
- <img src="image/dobot_moveit.jpg" alt="DOBOT 6Axis ROS2 V4" style="max-width: 600px; margin-bottom: 20px;" />
+<img src="image/dobot_moveit.jpg" alt="DOBOT 6Axis ROS2 V4" style="max-width: 600px; margin-bottom: 20px;" />
 
- <h1>DOBOT 6Axis ROS2 V4</h1>
+<h1>DOBOT 6Axis ROS2 V4</h1>
 
- **越疆机器人 ROS2 软件开发套件**  
+ **越疆机器人 ROS2 软件开发套件**
  基于 TCP/IP 协议的高性能机器人控制框架
 
  [English](README.md) · [简体中文](README_ZH.md)
@@ -21,19 +21,19 @@
 
 ### 环境要求
 
-| 要求 | 版本 |
-|------|------|
+| 要求     | 版本             |
+| -------- | ---------------- |
 | 操作系统 | Ubuntu 22.04 LTS |
-| ROS 版本 | ROS2 Humble |
-| Python | 3.8+ |
+| ROS 版本 | ROS2 Humble      |
+| Python   | 3.8+             |
 
 ### 网络配置
 
-| 配置项 | 说明 |
-|--------|------|
+| 配置项    | 说明                            |
+| --------- | ------------------------------- |
 | 机器人 IP | 192.168.5.1（需与本机同一网段） |
-| 控制端口 | 29999 |
-| 反馈端口 | 30004 |
+| 控制端口  | 29999                           |
+| 反馈端口  | 30004                           |
 
 ### 安装步骤
 
@@ -108,25 +108,25 @@ DOBOT_6Axis_ROS2_V4/
 
 ## 支持型号
 
-| 系列 | 型号 |
-|------|------|
-| CR 系列 | CR3、CR5、CR7、CR10、CR12、CR16、CR20、CR30H |
-| CRAF 系列 | CR10AF |
-| E 系列 | E6 / ME6 |
-| Nova 系列 | Nova2、Nova5 |
+| 系列      | 型号                                         |
+| --------- | -------------------------------------------- |
+| CR 系列   | CR3、CR5、CR7、CR10、CR12、CR16、CR20、CR30H |
+| CRAF 系列 | CR3AF、CR5AF、CR10AF、CR20AF                 |
+| E 系列    | E6 / ME6                                     |
+| Nova 系列 | Nova2、Nova5、Nova2s                         |
 
 ---
 
 ## 启动文件
 
-| 启动文件 | 说明 |
-|----------|------|
-| `dobot_bringup_ros2.launch.py` | 启动机器人驱动 |
-| `dobot_rviz.launch.py` | 启动 RViz |
-| `moveit_demo.launch.py` | MoveIt 虚拟演示 |
-| `dobot_moveit.launch.py` | MoveIt 控制界面 |
-| `dobot_gazebo.launch.py` | 启动 Gazebo |
-| `gazebo_moveit.launch.py` | Gazebo 与 MoveIt 联动 |
+| 启动文件                         | 说明                  |
+| -------------------------------- | --------------------- |
+| `dobot_bringup_ros2.launch.py` | 启动机器人驱动        |
+| `dobot_rviz.launch.py`         | 启动 RViz             |
+| `moveit_demo.launch.py`        | MoveIt 虚拟演示       |
+| `dobot_moveit.launch.py`       | MoveIt 控制界面       |
+| `dobot_gazebo.launch.py`       | 启动 Gazebo           |
+| `gazebo_moveit.launch.py`      | Gazebo 与 MoveIt 联动 |
 
 ---
 
@@ -142,10 +142,10 @@ DOBOT_6Axis_ROS2_V4/
 
 ## 版本信息
 
-| 信息 | 内容 |
-|------|------|
-| 当前版本 | V4.6.5 |
-| ROS 版本 | ROS2 Humble |
+| 信息     | 内容                |
+| -------- | ------------------- |
+| 当前版本 | V4.6.5              |
+| ROS 版本 | ROS2 Humble         |
 | 协议版本 | Dobot TCP/IP V4.6.5 |
 
 ---
