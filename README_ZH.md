@@ -111,6 +111,33 @@ ros2 launch dobot_bringup_v4 dobot_bringup_ros2.launch.py
 ros2 launch dobot_moveit dobot_moveit.launch.py
 ```
 
+**精准控制（控制器标定 DH 精度）**
+
+使用 `send_pose_target.py` 实现标定 DH 精度的点到点运动：
+
+```bash
+# 终端1：连接机器人
+ros2 launch dobot_bringup_v4 dobot_bringup_ros2.launch.py
+
+# 终端2：MoveIt
+ros2 launch dobot_moveit dobot_moveit.launch.py
+
+# 终端3：精准控制
+ros2 run dobot_moveit send_pose_target.py -- x y z rx ry rz [--plan-only]
+```
+
+**原理：** 控制器 InverseKin 计算关节目标 → OMPL 规划避障路径
+→ action_move_server 执行。
+
+| 环节 | IK 来源 | 用途 |
+|------|---------|------|
+| 目标 IK | 控制器 InverseKin（标定 DH） | TCP 精度 < 0.05 mm |
+| 路径规划 | OMPL + 关节空间约束 | 避障 |
+| 执行 | `action_move_server` + ServoJ | 逐点下发控制器 |
+
+> `--plan-only` 先在 RViz 显示轨迹，按 Enter 执行。执行前可用 `verify_dh.py` 验证精度。
+
+
 ### 5. Gazebo + MoveIt 联合仿真
 
 物理仿真与运动规划联动：
@@ -161,6 +188,11 @@ ros2 run servo_action action_move_client
 | `live_hardware` | `false` | 设为 `true` 时直接从真实机器人获取关节状态 |
 | `gui` | `false` | 启用 `joint_state_publisher_gui` 手动控制关节 |
 | `model` | 自动 | 机器人 URDF 文件路径（根据 `DOBOT_TYPE` 自动生成） |
+
+`dobot_moveit.launch.py` 额外支持以下参数：
+
+| 参数 | 默认值 | 说明 |
+|------|--------|------|
 
 ### 环境变量配置
 

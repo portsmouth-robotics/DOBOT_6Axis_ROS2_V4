@@ -12,44 +12,31 @@ from moveit_configs_utils.launch_utils import (
 )
 from launch.substitutions import LaunchConfiguration
 from launch_ros.parameter_descriptions import ParameterValue
-from launch_ros.actions import Node
+import time
 import os
-from ament_index_python.packages import get_package_share_path
-
-
+from launch_ros.actions import Node
 def generate_launch_description():
     moveit_config = MoveItConfigsBuilder("cr10_robot", package_name="cr10_moveit").to_moveit_configs()
-    
+
     ld = LaunchDescription()
     my_generate_rsp_launch(ld, moveit_config)
-    # start move_group
+    # Launch move_group
     my_generate_move_group_launch(ld, moveit_config)
-    # start rviz
+    # Launch RViz
     my_generate_moveit_rviz_launch(ld, moveit_config)
 
-    # Joint state relay: /joint_states_robot → /rsp_joint_states + /joint_states (bridge for MoveIt)
-    urdf_path = str(get_package_share_path('dobot_rviz') / f'urdf/cr10_robot.urdf')
-    ld.add_action(Node(
-        package='dobot_rviz',
-        executable='joint_state_relay.py',
-        name='joint_state_relay',
-        arguments=[urdf_path, '--robot'],
-    ))
-
     return ld
-
-
-def my_generate_rsp_launch(ld, moveit_config):
+def my_generate_rsp_launch(ld,moveit_config):
     """Launch file for robot state publisher (rsp)"""
 
     ld.add_action(DeclareLaunchArgument("publish_frequency", default_value="15.0"))
 
+    # Given the published joint states, publish tf for the robot links and the robot description
     rsp_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
         respawn=True,
         output="screen",
-        remappings=[('/joint_states', '/rsp_joint_states')],
         parameters=[
             moveit_config.robot_description,
             {
@@ -59,6 +46,7 @@ def my_generate_rsp_launch(ld, moveit_config):
     )
     ld.add_action(rsp_node)
 
+    return ld
 
 def my_generate_move_group_launch(ld, moveit_config):
 
@@ -93,7 +81,6 @@ def my_generate_move_group_launch(ld, moveit_config):
     move_group_configuration = {
         "publish_robot_description_semantic": True,
         "allow_trajectory_execution": LaunchConfiguration("allow_trajectory_execution"),
-        # 超时由 action_move_server 统一管理，此处不设置
         # Note: Wrapping the following values is necessary so that the parameter value can be the empty string
         "capabilities": ParameterValue(
             LaunchConfiguration("capabilities"), value_type=str
@@ -111,9 +98,6 @@ def my_generate_move_group_launch(ld, moveit_config):
 
     move_group_params = [
         moveit_config.to_dict(),
-        moveit_config.planning_pipelines,
-        moveit_config.robot_description_kinematics,
-        moveit_config.joint_limits,
         move_group_configuration,
     ]
 
@@ -126,9 +110,8 @@ def my_generate_move_group_launch(ld, moveit_config):
         parameters=move_group_params,
         extra_debug_args=["--debug"],
         # Set the display variable, in case OpenGL code is used internally
-        additional_env={"DISPLAY": os.environ.get("DISPLAY", ":0")},
+        additional_env={"DISPLAY": os.environ["DISPLAY"]},
     )
-
     return ld
 
 def my_generate_moveit_rviz_launch(ld, moveit_config):

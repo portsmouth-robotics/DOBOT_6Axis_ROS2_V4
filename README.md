@@ -111,6 +111,33 @@ ros2 launch dobot_bringup_v4 dobot_bringup_ros2.launch.py
 ros2 launch dobot_moveit dobot_moveit.launch.py
 ```
 
+**Precision Control (publisher-calibrated DH accuracy)**
+
+For point-to-point motions with calibrated-DH accuracy, use `send_pose_target.py`:
+
+```bash
+# Terminal 1: Connect to robot
+ros2 launch dobot_bringup_v4 dobot_bringup_ros2.launch.py
+
+# Terminal 2: MoveIt
+ros2 launch dobot_moveit dobot_moveit.launch.py
+
+# Terminal 3: Precision control
+ros2 run dobot_moveit send_pose_target.py -- x y z rx ry rz [--plan-only]
+```
+
+**How it works:** Controller InverseKin computes joint targets → OMPL plans a
+collision-free path → `action_move_server` executes via ServoJ.
+
+| Step | IK source | Purpose |
+|------|-----------|---------|
+| Target IK | Controller InverseKin (calibrated DH) | TCP accuracy < 0.05 mm |
+| Path planning | OMPL + joint-space constraints | Collision avoidance |
+| Execution | `action_move_server` + ServoJ | Point-by-point to controller |
+
+> `--plan-only` displays the path in RViz first; press Enter to execute.
+> Use `verify_dh.py` to validate controller IK accuracy before motion.
+
 ### 5. Gazebo + MoveIt Co-Simulation
 
 Physics simulation with motion planning:
@@ -161,6 +188,11 @@ The following parameters apply to `dobot_rviz.launch.py`:
 | `live_hardware` | `false` | Set to `true` to get joint states from a real robot |
 | `gui` | `false` | Enable `joint_state_publisher_gui` for manual joint control |
 | `model` | Auto | Path to robot URDF file (auto-generated based on `DOBOT_TYPE`) |
+
+The `dobot_moveit.launch.py` file additionally supports:
+
+| Parameter | Default Value | Description |
+|-----------|---------------|-------------|
 
 ### Environment Variables
 
