@@ -61,7 +61,7 @@ echo "export IP_address=192.168.5.1" >> ~/.bashrc
 # 指定机械臂型号（根据实际型号选择）
 # 示例：CR5 型号
 echo "export DOBOT_TYPE=cr5" >> ~/.bashrc
-# 支持型号：CR3、CR5、CR7、CR10、CR12、CR16、CR20、E6（ME6）、CR10AF、Nova2、Nova5、CR30H
+# 支持型号：cr3、cr5、cr7、cr10、cr12、cr16、cr20、e6（me6）、cr10af、nova2、nova5、cr30h
 
 # 生效配置
 source ~/.bashrc
