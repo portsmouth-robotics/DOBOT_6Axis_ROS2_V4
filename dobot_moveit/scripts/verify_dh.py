@@ -39,11 +39,14 @@ def deg2rad(d):
 def rad2deg(r):
     return r * 180.0 / math.pi
 
-def normalize_deg(v):
-    v = math.fmod(v, 360.0)
-    if v > 180.0: v -= 360.0
-    elif v < -180.0: v += 360.0
-    return v
+def normalize_deg(target, current):
+    """以 current 为基准，将 target 归算到最近等效角度，保证最短物理路径。"""
+    delta = math.fmod(target - current, 360.0)
+    if delta > 180.0:
+        delta -= 360.0
+    elif delta < -180.0:
+        delta += 360.0
+    return current + delta
 
 def rotvec_deg_to_quat(rx, ry, rz):
     norm = math.sqrt(rx*rx + ry*ry + rz*rz)
@@ -103,7 +106,10 @@ class VerifyNode(Node):
         fut = self.cli_ik.call_async(req)
         rclpy.spin_until_future_complete(self, fut, timeout_sec=5)
         r = fut.result()
-        return [normalize_deg(j) for j in parse_brace6(r.robot_return)] if r and r.res == 0 else None
+        raw = parse_brace6(r.robot_return) if r and r.res == 0 else None
+        if raw is None:
+            return None
+        return [normalize_deg(raw[i], (seed or [0]*6)[i]) for i in range(len(raw))]
 
     def ctrl_fk(self, joints_deg):
         if not self.cli_fk.wait_for_service(timeout_sec=5):

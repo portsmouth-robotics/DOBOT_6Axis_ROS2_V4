@@ -23,11 +23,14 @@ from moveit_msgs.msg import (
 from dobot_msgs_v4.srv import InverseKin, GetAngle
 
 
-def normalize_deg(v):
-    v = math.fmod(v, 360.0)
-    if v > 180.0: v -= 360.0
-    elif v < -180.0: v += 360.0
-    return v
+def normalize_deg(target, current):
+    """以 current 为基准，将 target 归算到最近等效角度，保证最短物理路径。"""
+    delta = math.fmod(target - current, 360.0)
+    if delta > 180.0:
+        delta -= 360.0
+    elif delta < -180.0:
+        delta += 360.0
+    return current + delta
 
 
 def main():
@@ -75,7 +78,8 @@ def main():
     rclpy.spin_until_future_complete(node, fut, timeout_sec=5.0)
     if not fut.done() or not fut.result() or fut.result().res != 0:
         logger.error("控制器 IK 失败"); sys.exit(1)
-    tgt_deg = [normalize_deg(float(v)) for v in fut.result().robot_return.strip('{}').split(',') if v.strip()]
+    raw_tgt = [float(v) for v in fut.result().robot_return.strip('{}').split(',') if v.strip()]
+    tgt_deg = [normalize_deg(raw_tgt[i], cur_deg[i]) for i in range(len(raw_tgt))]
     logger.info(f"控制器 IK(deg): {[round(v,4) for v in tgt_deg]}")
 
     # ── 2. 关节约束 → OMPL 关节空间规划 ──
