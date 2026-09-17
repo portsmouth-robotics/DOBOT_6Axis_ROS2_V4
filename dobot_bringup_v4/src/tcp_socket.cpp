@@ -151,6 +151,22 @@ bool TcpClient::tcpRecvExact(void *buf, uint32_t len, uint32_t &has_read, uint32
         }
         else if (err == 0)
         {
+            if (has_read > 0)
+            {
+
+                RCLCPP_WARN(
+                    rclcpp::get_logger("TcpClient"),
+                    "tcpRecvExact timeout after %u bytes",
+                    has_read);
+
+                disConnect();
+                throw TcpClientException(
+                    toString() +
+                    " timeout during fixed-length frame after " +
+                    std::to_string(has_read) +
+                    " bytes");
+            }
+
             return false;
         }
 
