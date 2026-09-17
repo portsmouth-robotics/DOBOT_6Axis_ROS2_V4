@@ -34,6 +34,12 @@ void CRCommanderRos2::getToolVectorActual(double *val)
 
 void CRCommanderRos2::recvTask()
 {
+
+    RCLCPP_INFO(
+        rclcpp::get_logger("CRCommanderRos2"),
+        "sizeof(RealTimeData) = %zu",
+        sizeof(RealTimeData));
+
     uint32_t has_read;
     while (is_running_)
     {
