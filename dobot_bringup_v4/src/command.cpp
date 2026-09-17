@@ -51,8 +51,18 @@ void CRCommanderRos2::recvTask()
                 if (real_time_tcp_->tcpRecvExact(tmpData, sizeof(RealTimeData), has_read, 5000))
                 {
 
-                    if (real_time_data_->len != 1440)
+                    if (real_time_data_->len != 1440 ||
+                        real_time_data_->test_value != 0x0123456789ABCDEFULL)
+                    {
+                        RCLCPP_WARN(
+                            rclcpp::get_logger("CRCommanderRos2"),
+                            "Invalid realtime frame: len=%u test=0x%016llx",
+                            real_time_data_->len,
+                            static_cast<unsigned long long>(real_time_data_->test_value));
+
+                        real_time_tcp_->disConnect();
                         continue;
+                    }
 
                     mutex_.lock();
                     for (uint32_t i = 0; i < 6; i++)
