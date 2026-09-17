@@ -3,6 +3,8 @@
 #include <chrono>
 #include <thread>
 #include <rclcpp/rclcpp.hpp>
+#include <cstddef>
+
 CRCommanderRos2::CRCommanderRos2(const std::string &ip)
     : current_joint_{}, tool_vector_{}, is_running_(false)
 {
@@ -34,8 +36,6 @@ void CRCommanderRos2::getToolVectorActual(double *val)
 
 void CRCommanderRos2::recvTask()
 {
-
-    uint32_t has_read;
     while (is_running_)
     {
         if (real_time_tcp_->isConnect())
@@ -43,7 +43,12 @@ void CRCommanderRos2::recvTask()
             try
             {
                 uint8_t *tmpData = reinterpret_cast<uint8_t *>(real_time_data_.get());
-                if (real_time_tcp_->tcpRecvExact(tmpData, sizeof(RealTimeData), has_read, 5000))
+                if (real_time_tcp_->tcpRecvFrame(
+                    tmpData,
+                    sizeof(RealTimeData),
+                    offsetof(RealTimeData, test_value),
+                    0x0123456789ABCDEFULL,
+                    5000))
                 {
 
                     if (real_time_data_->len != 1440 ||
