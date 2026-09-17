@@ -86,6 +86,11 @@ public:
      */
     bool tcpRecv(void *buf, uint32_t len, uint32_t &has_read, uint32_t timeout);
 
+    /**
+    * tcpRecvExact
+    */
+    bool tcpRecvExact(void *buf, uint32_t len, uint32_t &has_read, uint32_t timeout);
+
     std::string toString();
 };
 

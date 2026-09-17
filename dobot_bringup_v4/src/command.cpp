@@ -42,7 +42,7 @@ void CRCommanderRos2::recvTask()
             try
             {
                 uint8_t *tmpData = reinterpret_cast<uint8_t *>(real_time_data_.get());
-                if (real_time_tcp_->tcpRecv(tmpData, sizeof(RealTimeData), has_read, 5000))
+                if (real_time_tcp_->tcpRecvExact(tmpData, sizeof(RealTimeData), has_read, 5000))
                 {
 
                     if (real_time_data_->len != 1440)
