@@ -574,6 +574,16 @@ bool CRRobotRos2::isConnected() const
     return commander_->isConnected();
 }
 
+int8_t CRRobotRos2::dragStatus() const
+{
+    return commander_->getRealData()->DragStatus;
+}
+
+int8_t CRRobotRos2::dragButtonSignal() const
+{
+    return commander_->getRealData()->DragButtonSignal;
+}
+
 void CRRobotRos2::getToolVectorActual(double *val)
 {
     commander_->getToolVectorActual(val);
