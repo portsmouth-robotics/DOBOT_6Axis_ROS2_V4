@@ -1,4 +1,2 @@
 bool is_enable
 bool is_connected
-int8 drag_status
-int8 drag_button_signal

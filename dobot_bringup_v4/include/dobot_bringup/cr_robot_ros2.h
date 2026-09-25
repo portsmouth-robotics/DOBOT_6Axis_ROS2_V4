@@ -154,8 +154,6 @@ public:
     void getJointState(double *point);
     bool isEnable() const;
     bool isConnected() const;
-    int8_t dragStatus() const;
-    int8_t dragButtonSignal() const;
     void getToolVectorActual(double *val);
 
 protected:
